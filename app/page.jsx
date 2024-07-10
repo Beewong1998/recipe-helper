@@ -1,65 +1,137 @@
 "use client";
-import React, { useState } from "react";
-import RecipeForm from "./components/RecipeForm";
+import React, { useState, useRef, useEffect } from "react";
+import IngredientsForm from "./components/IngredientsForm";
+import IngredientsAdjuster from "./components/IngredientsAdjuster";
 
-const Home = () => {
+const App = () => {
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
+  const adjusterRef = useRef(null); // Create a ref for IngredientsAdjuster
 
-  const handleSubmit = (ingredientsList, originalServings, desiredServings) => {
-    const adjustedIngredientsList = ingredientsList.map((ingredientLine) => {
-      // Regular expression to match quantities with fractions or decimals
-      const match = ingredientLine.match(
-        /^(\d+\/\d+|\d+(\.\d+)?|\u00BC|\u00BD|\u2153|\u2154)\s+(\w+)\s+(.*)$/u
-      );
-      console.log(match);
-      if (!match) {
-        // If the line doesn't match the expected format, return it as-is
-        return ingredientLine;
-      }
-
-      // Extract matched parts
-      let quantityStr = match[1];
-      if (quantityStr === "\u00BD") {
-        quantityStr = 1 / 2;
-      } else if (quantityStr === "\u00BC") {
-        quantityStr = 1 / 4;
-      } else if (quantityStr === "\u00BE") {
-        quantityStr = 3 / 4;
-      } else if (quantityStr === "\u2153") {
-        quantityStr = 1 / 3;
-      } else if (quantityStr === "\u2154") {
-        quantityStr = 2 / 3;
-      }
-      const unit = match[3];
-      const name = match[4];
-
-      // Parse the quantity (handle fractions)
-      let quantity = eval(quantityStr); // Using eval to safely evaluate fractions
-
-      // Calculate adjusted quantity
-      const adjustedQuantity = (quantity / originalServings) * desiredServings;
-
-      // Format adjusted ingredient line
-      return `${adjustedQuantity} ${unit} ${name}`;
+  const handleFormSubmit = ({
+    ingredientsList,
+    originalServings,
+    desiredServings,
+  }) => {
+    // Split the ingredients list into lines
+    const lines = ingredientsList.split("\n");
+    const cleanLines = lines.filter((line) => {
+      return line !== "";
     });
 
-    setAdjustedIngredients(adjustedIngredientsList);
+    const ratio = desiredServings / originalServings;
+
+    // Adjust quantities for each line
+    const adjusted = cleanLines.map((line) => {
+      const parts = line.match(/\d+(?:\.\d+)?(?:\/\d+)?|[^\s\d\/()]+|\S/g);
+      const adjustedParts = parts.map((part) => {
+        if (part === "") {
+          return "";
+        } else if (part === null) {
+          return "";
+        } else if (!isNaN(part)) {
+          return parseInt(part) * ratio;
+        } else if (part === "1/4" || part === "¼") {
+          let n = 1 * ratio;
+          const numerator = n % 4;
+          const whole = Math.floor(n / 4);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/4`;
+          } else {
+            return `${whole} ${numerator}/4`;
+          }
+        } else if (!isNaN(part)) {
+        } else if (part === "3/4" || part === "¾") {
+          let n = 3 * ratio;
+          const numerator = n % 4;
+          const whole = Math.floor(n / 4);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/4`;
+          } else {
+            return `${whole} ${numerator}/4`;
+          }
+        } else if (part === "1/3" || part === "⅓") {
+          let n = 1 * ratio;
+          const numerator = n % 3;
+          const whole = Math.floor(n / 3);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/3`;
+          } else {
+            return `${whole} ${numerator}/3`;
+          }
+        } else if (part === "2/3" || part === "⅔") {
+          let n = 2 * ratio;
+          const numerator = n % 3;
+          const whole = Math.floor(n / 3);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/3`;
+          } else {
+            return `${whole} ${numerator}/3`;
+          }
+        } else if (part === "1/2" || part === "½") {
+          let n = 1 * ratio;
+          const numerator = n % 2;
+          const whole = Math.floor(n / 2);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/2`;
+          } else {
+            return `${whole} ${numerator}/2`;
+          }
+        } else if (part === "1/8" || part === "⅛") {
+          let n = 1 * ratio;
+          const numerator = n % 8;
+          const whole = Math.floor(n / 8);
+          if (numerator === 0) {
+            return `${whole}`;
+          } else if (whole === 0) {
+            return `${numerator}/8`;
+          } else {
+            return `${whole} ${numerator}/8`;
+          }
+        } else {
+          return part;
+        }
+      });
+      console.log(adjustedParts);
+      return adjustedParts.join(" ");
+    });
+
+    setAdjustedIngredients(adjusted);
   };
 
+  useEffect(() => {
+    // Scroll to IngredientsAdjuster component when adjustedIngredients updates
+    if (adjusterRef.current) {
+      adjusterRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [adjustedIngredients]);
+
   return (
-    <div>
-      <h1>Recipe Servings Adjuster</h1>
-      <RecipeForm onSubmit={handleSubmit} />
-      <div>
-        <h2>Adjusted Ingredients:</h2>
-        <ul>
-          {adjustedIngredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
+    <>
+      <div className="flex">
+        <h1 className="w-100 mx-auto mt-4 mb-8 text-4xl font-bold">
+          Recipe Adjuster
+        </h1>
       </div>
-    </div>
+      <div className="w-100 flex flex-col lg:flex-row">
+        <IngredientsForm onSubmit={handleFormSubmit} />
+        {adjustedIngredients.length > 0 && (
+          <div ref={adjusterRef}>
+            <IngredientsAdjuster adjustedIngredients={adjustedIngredients} />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
-export default Home;
+export default App;
