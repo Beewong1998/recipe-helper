@@ -172,9 +172,10 @@ const App = () => {
 
   return (
     <>
-      <div className="flex">
-        <h1 className="w-100 mx-auto mt-4 mb-4 text-4xl font-bold">
-          Recipe Adjuster
+      <div className="flex p-2 justify-start lg:justify-center lg:mr-6">
+        <img src="./favicon.ico" className="w-20" />
+        <h1 className="w-100  mt-6 mb-4 text-4xl font-bold ml-4">
+          Recipe Helper
         </h1>
       </div>
       <div className="w-100 flex flex-col lg:px-40 ">
