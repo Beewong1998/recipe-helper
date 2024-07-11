@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.3.1",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "fractional": "^1.0.0",
     "next": "14.2.4",
     "react": "^18.3.1",
-    "react-dom": "^18",
-    "recipe-scraper": "^2.1.1"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
