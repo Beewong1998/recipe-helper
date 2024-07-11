@@ -27,7 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/page.jsx",
-    "app/api/fetch-recipe/route.js",
     "app/layout.jsx"
   ],
   "exclude": ["node_modules"]
