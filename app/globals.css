@@ -14,3 +14,7 @@ body {
 .placeholder-center::placeholder {
   text-align: center;
 }
+
+body {
+  background-color: palegreen;
+}

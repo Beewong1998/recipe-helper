@@ -9,8 +9,8 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
     return /^\d/.test(str);
   };
 
-  const startsWithCapitalLetter = (str) => {
-    return /^[A-Z]/.test(str);
+  const startsWithLetter = (str) => {
+    return /^[A-Za-z]/.test(str);
   };
 
   const [checkedItems, setCheckedItems] = useState(
@@ -62,7 +62,7 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
                 {" "}
               </li>
             );
-          } else if (startsWithCapitalLetter(ingredient)) {
+          } else if (startsWithLetter(ingredient)) {
             return (
               <li className="text-xl font-bold" key={index}>
                 {ingredient}

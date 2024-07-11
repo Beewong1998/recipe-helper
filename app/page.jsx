@@ -172,7 +172,7 @@ const App = () => {
 
   return (
     <>
-      <div className="flex p-2 justify-start lg:justify-center lg:mr-6">
+      <div className="flex p-2 justify-start lg:justify-center lg:mr-6 lg:mt-6">
         <img src="./favicon.ico" className="w-20" />
         <h1 className="w-100  mt-6 mb-4 text-4xl font-bold ml-4">
           Recipe Helper
