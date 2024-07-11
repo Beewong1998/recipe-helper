@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const IngredientsAdjuster = ({ adjustedIngredients }) => {
   const cleanIngredients = adjustedIngredients.map((ingredient) => {
@@ -12,16 +12,49 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
   const startsWithCapitalLetter = (str) => {
     return /^[A-Z]/.test(str);
   };
+
+  const [checkedItems, setCheckedItems] = useState(
+    Array(cleanIngredients.length).fill(false)
+  );
+
+  const handleToggle = (index) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
+  };
+
   return (
     <div>
-      <h2 className="mt-4 lg:mb-4 pl-1 underline">Adjusted Ingredients</h2>
+      <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
+        Adjusted Ingredients
+      </div>
       <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8">
         {cleanIngredients.map((ingredient, index) => {
           if (startsWithNumber(ingredient)) {
             return (
-              <li className="my-2 " key={index}>
-                {`\u2022 ${ingredient}`}
-              </li>
+              <>
+                <div className="my-2 ">
+                  <input
+                    type="checkbox"
+                    className="mr-2 cursor-pointer"
+                    id={`checkbox-${index}`}
+                    checked={checkedItems[index]}
+                    onChange={() => handleToggle(index)}
+                  />
+                  <label
+                    htmlFor={`checkbox-${index}`}
+                    className={`
+                      ${checkedItems[index] ? "line-through text-gray-400" : ""}
+                      cursor-pointer`}
+                  >
+                    {ingredient}
+                  </label>
+                </div>
+                {/* <li className="my-2 " key={index}>
+                  {`\u2022 ${ingredient}`}
+                </li> */}
+                <div className="border-b-2 border-gray-100"></div>
+              </>
             );
           } else if (ingredient.length === 0) {
             return (

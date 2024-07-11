@@ -13,13 +13,16 @@ const IngredientsForm = ({ onSubmit }) => {
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
       <div className="leading-loose ">
+        <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
+          Ingredients
+        </div>
         <textarea
           placeholder="Enter ingredients here that you want to adjust"
           id="ingredients"
           className="w-full pl-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-4 "
           value={ingredientsList}
           onChange={(e) => setIngredientsList(e.target.value)}
-          rows={16}
+          rows={14}
           cols={40}
           required
         />
