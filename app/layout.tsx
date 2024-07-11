@@ -6,8 +6,9 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Mystery App",
-  description: "Mystery App Now Now",
+  title: "Recipe Helper",
+  description:
+    "Website to easily scale ingredients to specific number of servings",
 };
 
 export default function RootLayout({
