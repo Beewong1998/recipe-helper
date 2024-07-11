@@ -14,10 +14,9 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
   };
   return (
     <div>
-      <h2 className="mt-4 pl-1 underline">Adjusted Ingredients</h2>
-      <ul className="w-full p-2 border-y-2 border-gray-300 mb-2">
+      <h2 className="mt-4 lg:mb-4 pl-1 underline">Adjusted Ingredients</h2>
+      <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8">
         {cleanIngredients.map((ingredient, index) => {
-          console.log(ingredient);
           if (startsWithNumber(ingredient)) {
             return (
               <li className="my-2 " key={index}>

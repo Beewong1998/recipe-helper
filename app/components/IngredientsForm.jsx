@@ -12,25 +12,22 @@ const IngredientsForm = ({ onSubmit }) => {
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
-      <label for="ingredients" className="pl-1 underline">
-        Ingredients List:
-      </label>
       <div className="leading-loose ">
         <textarea
+          placeholder="Enter ingredients here that you want to adjust"
           id="ingredients"
-          className="w-full p-2 border-y-2 border-gray-300 mb-4"
+          className="w-full pl-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-4 "
           value={ingredientsList}
           onChange={(e) => setIngredientsList(e.target.value)}
-          rows={10}
+          rows={16}
           cols={40}
           required
         />
       </div>
-
-      <label className="pl-4">
-        Original Servings:
+      <div className="flex">
+        <label className="pl-2 w-60 ">Original Servings:</label>
         <input
-          className="ml-8 text-center placeholder-center border-gray-300 border-2 rounded-xl"
+          className="text-center placeholder-center border-gray-300 border-2 rounded-xl w-screen"
           type="number"
           placeholder="Enter original servings"
           value={originalServings}
@@ -38,20 +35,22 @@ const IngredientsForm = ({ onSubmit }) => {
           min={1}
           required
         />
-      </label>
+      </div>
+
       <br />
-      <label className="pl-4">
-        Desired Servings:
+      <div className="flex">
+        <label className="pl-2 w-60">Desired Servings:</label>
         <input
           type="number"
-          className="ml-8 text-center placeholder-center border-gray-300 border-2 rounded-xl"
+          className=" text-center placeholder-center border-gray-300 border-2 rounded-xl w-screen"
           placeholder="Enter desired servings"
           value={desiredServings}
           onChange={(e) => setDesiredServings(parseInt(e.target.value))}
           min={1}
           required
         />
-      </label>
+      </div>
+
       <br />
       <button
         className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"

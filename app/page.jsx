@@ -29,25 +29,42 @@ const App = () => {
         } else if (part === null) {
           return "";
         } else if (!isNaN(part)) {
-          return parseInt(part) * ratio;
+          let number = parseInt(part) * ratio;
+          number = Math.round(number * 4) / 4;
+          return number;
         } else if (part === "1/4" || part === "¼") {
           let n = 1 * ratio;
           const numerator = n % 4;
           const whole = Math.floor(n / 4);
           if (numerator === 0) {
             return `${whole}`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(4 / numerator);
+            if (top === denominator) {
+              return "1";
+            }
+
+            return `${top}/${denominator}`;
           } else if (whole === 0) {
             return `${numerator}/4`;
           } else {
             return `${whole} ${numerator}/4`;
           }
-        } else if (!isNaN(part)) {
         } else if (part === "3/4" || part === "¾") {
           let n = 3 * ratio;
           const numerator = n % 4;
           const whole = Math.floor(n / 4);
           if (numerator === 0) {
             return `${whole}`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(4 / numerator);
+            if (top === denominator) {
+              return "1";
+            }
+
+            return `${top}/${denominator}`;
           } else if (whole === 0) {
             return `${numerator}/4`;
           } else {
@@ -59,6 +76,11 @@ const App = () => {
           const whole = Math.floor(n / 3);
           if (numerator === 0) {
             return `${whole}`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(3 / numerator);
+
+            return `${top}/${denominator}`;
           } else if (whole === 0) {
             return `${numerator}/3`;
           } else {
@@ -70,6 +92,11 @@ const App = () => {
           const whole = Math.floor(n / 3);
           if (numerator === 0) {
             return `${whole}`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(3 / numerator);
+
+            return `${top}/${denominator}`;
           } else if (whole === 0) {
             return `${numerator}/3`;
           } else {
@@ -81,10 +108,13 @@ const App = () => {
           const whole = Math.floor(n / 2);
           if (numerator === 0) {
             return `${whole}`;
-          } else if (whole === 0) {
-            return `${numerator}/2`;
-          } else {
-            return `${whole} ${numerator}/2`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(2 / numerator);
+            if (top === denominator) {
+              return "1";
+            }
+            return `${top}/${denominator}`;
           }
         } else if (part === "1/8" || part === "⅛") {
           let n = 1 * ratio;
@@ -92,6 +122,11 @@ const App = () => {
           const whole = Math.floor(n / 8);
           if (numerator === 0) {
             return `${whole}`;
+          } else if (numerator !== 0) {
+            let top = 1;
+            let denominator = Math.round(8 / numerator);
+
+            return `${top}/${denominator}`;
           } else if (whole === 0) {
             return `${numerator}/8`;
           } else {
@@ -102,7 +137,27 @@ const App = () => {
         }
       });
       console.log(adjustedParts);
-      return adjustedParts.join(" ");
+      let result = [];
+      for (let i = 0; i < adjustedParts.length; i++) {
+        if (
+          typeof adjustedParts[i] === "number" &&
+          i + 1 < adjustedParts.length &&
+          typeof adjustedParts[i + 1] === "string" &&
+          !isNaN(adjustedParts[i + 1])
+        ) {
+          // If current element is a number and next element is a string containing digits
+          let sumOfNumbers =
+            adjustedParts[i] + parseInt(adjustedParts[i + 1], 10);
+          result.push(sumOfNumbers);
+          // Skip the next element since we have already processed it
+          i++;
+        } else {
+          // Otherwise, just append the current element to the result array
+          result.push(adjustedParts[i]);
+        }
+      }
+      console.log(result);
+      return result.join(" ");
     });
 
     setAdjustedIngredients(adjusted);
@@ -118,11 +173,11 @@ const App = () => {
   return (
     <>
       <div className="flex">
-        <h1 className="w-100 mx-auto mt-4 mb-8 text-4xl font-bold">
+        <h1 className="w-100 mx-auto mt-4 mb-4 text-4xl font-bold">
           Recipe Adjuster
         </h1>
       </div>
-      <div className="w-100 flex flex-col lg:flex-row">
+      <div className="w-100 flex flex-col lg:px-40 ">
         <IngredientsForm onSubmit={handleFormSubmit} />
         {adjustedIngredients.length > 0 && (
           <div ref={adjusterRef}>
