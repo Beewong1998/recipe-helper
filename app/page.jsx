@@ -9,10 +9,16 @@ import styles from "./css/Settings.module.css";
 const App = () => {
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
   const adjusterRef = useRef(null); // Create a ref for IngredientsAdjuster
-  const [selectedOption, setSelectedOption] = useState(() => {
-    return localStorage.getItem("selectedOption") || "default";
-  });
+  const [selectedOption, setSelectedOption] = useState();
   const [settingOpen, setSettingOpen] = useState(false);
+
+  useEffect(() => {
+    // Retrieve the selected option from localStorage when the component mounts
+    const storedOption = localStorage.getItem("selectedOption");
+    if (storedOption) {
+      setSelectedOption(storedOption);
+    }
+  }, []);
 
   const options = [
     { label: "Default", value: "default" },
@@ -224,14 +230,6 @@ const App = () => {
       adjusterRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [adjustedIngredients]);
-
-  useEffect(() => {
-    // Retrieve the selected option from localStorage when the component mounts
-    const storedOption = localStorage.getItem("selectedOption");
-    if (storedOption) {
-      setSelectedOption(storedOption);
-    }
-  }, []);
 
   return (
     <>
