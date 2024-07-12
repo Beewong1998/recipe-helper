@@ -28,7 +28,7 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
       <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
         Adjusted Ingredients
       </div>
-      <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8">
+      <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8 bg-white">
         {cleanIngredients.map((ingredient, index) => {
           if (startsWithNumber(ingredient)) {
             return (
