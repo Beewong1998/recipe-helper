@@ -2,10 +2,65 @@
 import React, { useState, useRef, useEffect } from "react";
 import IngredientsForm from "./components/IngredientsForm";
 import IngredientsAdjuster from "./components/IngredientsAdjuster";
+import Dropdown from "./components/Dropdown";
+import { CSSTransition } from "react-transition-group";
+import styles from "./css/Settings.module.css";
 
 const App = () => {
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
   const adjusterRef = useRef(null); // Create a ref for IngredientsAdjuster
+  const [selectedOption, setSelectedOption] = useState(() => {
+    return localStorage.getItem("selectedOption") || "default";
+  });
+  const [settingOpen, setSettingOpen] = useState(false);
+
+  const options = [
+    { label: "Default", value: "default" },
+    { label: "Cupcakes", value: "cupcakes" },
+    { label: "Doughnuts", value: "doughnuts" },
+    { label: "Cereal", value: "cereal" },
+    { label: "Carrots", value: "carrots" },
+    { label: "Tacos", value: "tacos" },
+    // Add more options as needed
+  ];
+
+  const toggleSettings = () => {
+    setSettingOpen(!settingOpen);
+  };
+
+  const handleDropdownChange = (e) => {
+    localStorage.setItem("selectedOption", e.target.value);
+    setSelectedOption(e.target.value);
+  };
+
+  const setBackground = (option) => {
+    switch (option) {
+      case "default":
+        return ``;
+      case "cupcakes":
+        return `url('/backgrounds/cupcakes.jpg')`;
+      case "doughnuts":
+        return `url('/backgrounds/doughnuts.jpg')`;
+      case "cereal":
+        return `url('/backgrounds/cereal.jpg')`;
+      case "carrots":
+        return `url('/backgrounds/vegetables.jpg')`;
+      case "tacos":
+        return `url('/backgrounds/tacos_and_burgers.jpg')`;
+      // Add more cases for each option
+      default:
+        return 'url("/path/to/default/image.jpg")';
+    }
+  };
+
+  const backgroundStyle = {
+    backgroundImage: setBackground(selectedOption),
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    minHeight: "100vh",
+    backgroundColor: "palegreen",
+    // Add more styling as needed
+  };
 
   const handleFormSubmit = ({
     ingredientsList,
@@ -170,21 +225,60 @@ const App = () => {
     }
   }, [adjustedIngredients]);
 
+  useEffect(() => {
+    // Retrieve the selected option from localStorage when the component mounts
+    const storedOption = localStorage.getItem("selectedOption");
+    if (storedOption) {
+      setSelectedOption(storedOption);
+    }
+  }, []);
+
   return (
     <>
-      <div className="flex p-2 justify-start lg:justify-center lg:mr-6 lg:mt-6">
-        <img src="./favicon.ico" className="w-20" />
-        <h1 className="w-100  mt-6 mb-4 text-4xl font-bold ml-4">
-          Recipe Helper
-        </h1>
-      </div>
-      <div className="w-100 flex flex-col lg:px-40 ">
-        <IngredientsForm onSubmit={handleFormSubmit} />
-        {adjustedIngredients.length > 0 && (
-          <div ref={adjusterRef}>
-            <IngredientsAdjuster adjustedIngredients={adjustedIngredients} />
-          </div>
-        )}
+      <div
+        style={backgroundStyle}
+        onClick={() => {
+          if (settingOpen) {
+            setSettingOpen(false);
+          }
+        }}
+      >
+        <div className="flex p-2 justify-start lg:justify-center lg:mr-6 lg:pt-6">
+          <img
+            onClick={toggleSettings}
+            src="./favicon.ico"
+            className="w-20 cursor-pointer"
+          />
+          <h1 className="w-100  mt-6 mb-4 text-4xl font-bold ml-4">
+            Recipe Helper
+          </h1>
+        </div>
+        <CSSTransition
+          in={settingOpen}
+          timeout={500}
+          classNames={{
+            enter: styles["modal-enter"],
+            exit: styles["modal-exit"],
+          }}
+          unmountOnExit
+        >
+          <>
+            <Dropdown
+              selectedOption={selectedOption}
+              options={options}
+              onChange={handleDropdownChange}
+            />
+          </>
+        </CSSTransition>
+
+        <div className="w-100 flex flex-col lg:px-40 ">
+          <IngredientsForm onSubmit={handleFormSubmit} />
+          {adjustedIngredients.length > 0 && (
+            <div ref={adjusterRef}>
+              <IngredientsAdjuster adjustedIngredients={adjustedIngredients} />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
