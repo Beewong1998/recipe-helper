@@ -7,7 +7,7 @@ const Dropdown = ({ options, selectedOption, onChange }) => {
       className="absolute w-screen lg:px-40 h-52  bg-red-300 p-2"
     >
       <h2 className="border-2 rounded-xl p-2 bg-white lg:text-center">
-        Thank you for petting me!
+        Thank you for booping me!
       </h2>
       <h2 className="border-2 rounded-xl p-2 mt-2 bg-white lg:text-center">
         As my gratitude, you can now change the background for the app, have
