@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-const IngredientsAdjuster = ({ adjustedIngredients }) => {
+const IngredientsAdjuster = ({
+  adjustedIngredients,
+  checkedItems,
+  setCheckedItems,
+}) => {
   const cleanIngredients = adjustedIngredients.map((ingredient) => {
     // Use regex to remove non-alphanumeric characters from the start of each ingredient
     return ingredient.replace(/^[^a-zA-Z0-9]+/, "");
@@ -12,10 +16,6 @@ const IngredientsAdjuster = ({ adjustedIngredients }) => {
   const startsWithLetter = (str) => {
     return /^[A-Za-z]/.test(str);
   };
-
-  const [checkedItems, setCheckedItems] = useState(
-    Array(cleanIngredients.length).fill(false)
-  );
 
   const handleToggle = (index) => {
     const newCheckedItems = [...checkedItems];

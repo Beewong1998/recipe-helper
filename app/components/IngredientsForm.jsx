@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
-const IngredientsForm = ({ onSubmit }) => {
+const IngredientsForm = ({ onSubmit, setCheckedItems }) => {
   const [ingredientsList, setIngredientsList] = useState("");
   const [originalServings, setOriginalServings] = useState();
   const [desiredServings, setDesiredServings] = useState();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    //uncheck all the new ingredients
+    setCheckedItems(Array(100).fill(false));
     onSubmit({ ingredientsList, originalServings, desiredServings });
   };
 

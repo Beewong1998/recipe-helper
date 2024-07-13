@@ -11,6 +11,7 @@ const App = () => {
   const adjusterRef = useRef(null); // Create a ref for IngredientsAdjuster
   const [selectedOption, setSelectedOption] = useState();
   const [settingOpen, setSettingOpen] = useState(false);
+  const [checkedItems, setCheckedItems] = useState();
 
   useEffect(() => {
     // Retrieve the selected option from localStorage when the component mounts
@@ -197,7 +198,7 @@ const App = () => {
           return part;
         }
       });
-      console.log(adjustedParts);
+
       let result = [];
       for (let i = 0; i < adjustedParts.length; i++) {
         if (
@@ -217,7 +218,7 @@ const App = () => {
           result.push(adjustedParts[i]);
         }
       }
-      console.log(result);
+
       return result.join(" ");
     });
 
@@ -230,6 +231,8 @@ const App = () => {
       adjusterRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [adjustedIngredients]);
+
+  const timeoutIdRef = useRef(null);
 
   return (
     <>
@@ -244,6 +247,19 @@ const App = () => {
         <div className="flex p-2 justify-start lg:justify-center lg:mr-6 lg:pt-6">
           <img
             onClick={toggleSettings}
+            onMouseEnter={() => {
+              timeoutIdRef.current = setTimeout(() => {
+                if (!settingOpen) {
+                  toggleSettings();
+                }
+              }, 1200);
+            }}
+            onMouseOut={() => {
+              if (timeoutIdRef.current) {
+                clearTimeout(timeoutIdRef.current);
+                timeoutIdRef.current = null;
+              }
+            }}
             src="./favicon.ico"
             className="w-20 cursor-pointer"
           />
@@ -270,10 +286,17 @@ const App = () => {
         </CSSTransition>
 
         <div className="w-100 flex flex-col lg:px-40 ">
-          <IngredientsForm onSubmit={handleFormSubmit} />
+          <IngredientsForm
+            onSubmit={handleFormSubmit}
+            setCheckedItems={setCheckedItems}
+          />
           {adjustedIngredients.length > 0 && (
             <div ref={adjusterRef}>
-              <IngredientsAdjuster adjustedIngredients={adjustedIngredients} />
+              <IngredientsAdjuster
+                adjustedIngredients={adjustedIngredients}
+                checkedItems={checkedItems}
+                setCheckedItems={setCheckedItems}
+              />
             </div>
           )}
         </div>
