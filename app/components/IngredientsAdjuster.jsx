@@ -35,7 +35,7 @@ const IngredientsAdjuster = ({
         {adjustedIngredients.map((ingredient, index) => {
           if (startsWithNumber(ingredient)) {
             return (
-              <>
+              <React.Fragment key={index}>
                 <div
                   className="my-2 cursor-pointer"
                   onClick={() => handleToggle(index)}
@@ -49,6 +49,7 @@ const IngredientsAdjuster = ({
                   />
 
                   <input
+                    key={index}
                     type="text"
                     value={adjustedIngredients[index]}
                     onChange={(e) => handleInputChange(index, e)}
@@ -62,7 +63,7 @@ const IngredientsAdjuster = ({
                   {`\u2022 ${ingredient}`}
                 </li> */}
                 <div className="border-b-2 border-gray-100"></div>
-              </>
+              </React.Fragment>
             );
           } else if (ingredient.length === 0) {
             return (
@@ -73,6 +74,7 @@ const IngredientsAdjuster = ({
           } else if (startsWithLetter(ingredient)) {
             return (
               <div
+                key={index}
                 className="my-2 cursor-pointer"
                 onClick={() => handleToggle(index)}
               >
@@ -86,6 +88,7 @@ const IngredientsAdjuster = ({
 
                 <input
                   type="text"
+                  key={index}
                   value={adjustedIngredients[index]}
                   onChange={(e) => handleInputChange(index, e)}
                   onClick={(e) => e.stopPropagation()}
