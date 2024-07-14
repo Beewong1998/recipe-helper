@@ -16,7 +16,7 @@ const IngredientsForm = ({ onSubmit, setCheckedItems }) => {
     <form className="flex flex-col" onSubmit={handleSubmit}>
       <div className="leading-loose ">
         <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
-          Ingredients!
+          Ingredients
         </div>
         <textarea
           placeholder="Enter ingredients here that you want to adjust"
