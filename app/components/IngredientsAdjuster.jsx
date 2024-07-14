@@ -49,7 +49,6 @@ const IngredientsAdjuster = ({
                   />
 
                   <input
-                    key={index}
                     type="text"
                     value={adjustedIngredients[index]}
                     onChange={(e) => handleInputChange(index, e)}
@@ -88,7 +87,6 @@ const IngredientsAdjuster = ({
 
                 <input
                   type="text"
-                  key={index}
                   value={adjustedIngredients[index]}
                   onChange={(e) => handleInputChange(index, e)}
                   onClick={(e) => e.stopPropagation()}
