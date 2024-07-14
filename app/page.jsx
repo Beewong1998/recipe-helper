@@ -12,6 +12,7 @@ const App = () => {
   const [selectedOption, setSelectedOption] = useState();
   const [settingOpen, setSettingOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState();
+  const [petOrBoop, setPetOrBoop] = useState();
 
   useEffect(() => {
     // Retrieve the selected option from localStorage when the component mounts
@@ -222,7 +223,12 @@ const App = () => {
       return result.join(" ");
     });
 
-    setAdjustedIngredients(adjusted);
+    const cleanIngredients = adjusted.map((ingredient) => {
+      // Use regex to remove non-alphanumeric characters from the start of each ingredient
+      return ingredient.replace(/^[^a-zA-Z0-9]+/, "");
+    });
+
+    setAdjustedIngredients(cleanIngredients);
   };
 
   useEffect(() => {
@@ -246,13 +252,17 @@ const App = () => {
       >
         <div className="flex p-2 justify-start lg:justify-center lg:mr-6 lg:pt-6">
           <img
-            onClick={toggleSettings}
+            onClick={() => {
+              toggleSettings();
+              setPetOrBoop("boop");
+            }}
             onMouseEnter={() => {
               timeoutIdRef.current = setTimeout(() => {
                 if (!settingOpen) {
                   toggleSettings();
                 }
               }, 1200);
+              setPetOrBoop("petting");
             }}
             onMouseOut={() => {
               if (timeoutIdRef.current) {
@@ -281,6 +291,8 @@ const App = () => {
               selectedOption={selectedOption}
               options={options}
               onChange={handleDropdownChange}
+              petOrBoop={petOrBoop}
+              setPetOrBook={setPetOrBoop}
             />
           </>
         </CSSTransition>
@@ -294,6 +306,7 @@ const App = () => {
             <div ref={adjusterRef}>
               <IngredientsAdjuster
                 adjustedIngredients={adjustedIngredients}
+                setAdjustedIngredients={setAdjustedIngredients}
                 checkedItems={checkedItems}
                 setCheckedItems={setCheckedItems}
               />

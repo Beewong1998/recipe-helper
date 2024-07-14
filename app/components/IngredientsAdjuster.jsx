@@ -2,13 +2,10 @@ import React, { useState } from "react";
 
 const IngredientsAdjuster = ({
   adjustedIngredients,
+  setAdjustedIngredients,
   checkedItems,
   setCheckedItems,
 }) => {
-  const cleanIngredients = adjustedIngredients.map((ingredient) => {
-    // Use regex to remove non-alphanumeric characters from the start of each ingredient
-    return ingredient.replace(/^[^a-zA-Z0-9]+/, "");
-  });
   const startsWithNumber = (str) => {
     return /^\d/.test(str);
   };
@@ -23,17 +20,26 @@ const IngredientsAdjuster = ({
     setCheckedItems(newCheckedItems);
   };
 
+  const handleInputChange = (index, event) => {
+    const newIngredients = [...adjustedIngredients];
+    newIngredients[index] = event.target.value;
+    setAdjustedIngredients(newIngredients);
+  };
+
   return (
     <div>
       <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
         Adjusted Ingredients
       </div>
       <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8 bg-white">
-        {cleanIngredients.map((ingredient, index) => {
+        {adjustedIngredients.map((ingredient, index) => {
           if (startsWithNumber(ingredient)) {
             return (
               <>
-                <div className="my-2 ">
+                <div
+                  className="my-2 cursor-pointer"
+                  onClick={() => handleToggle(index)}
+                >
                   <input
                     type="checkbox"
                     className="mr-2 cursor-pointer"
@@ -41,14 +47,16 @@ const IngredientsAdjuster = ({
                     checked={checkedItems[index]}
                     onChange={() => handleToggle(index)}
                   />
-                  <label
-                    htmlFor={`checkbox-${index}`}
-                    className={`
-                      ${checkedItems[index] ? "line-through text-gray-400" : ""}
-                      cursor-pointer`}
-                  >
-                    {ingredient}
-                  </label>
+
+                  <input
+                    type="text"
+                    value={adjustedIngredients[index]}
+                    onChange={(e) => handleInputChange(index, e)}
+                    onClick={(e) => e.stopPropagation()}
+                    className={`cursor-pointer rounded px-2 ${
+                      checkedItems[index] ? "line-through text-gray-400" : ""
+                    }`}
+                  />
                 </div>
                 {/* <li className="my-2 " key={index}>
                   {`\u2022 ${ingredient}`}
@@ -64,9 +72,28 @@ const IngredientsAdjuster = ({
             );
           } else if (startsWithLetter(ingredient)) {
             return (
-              <li className="text-xl font-bold" key={index}>
-                {ingredient}
-              </li>
+              <div
+                className="my-2 cursor-pointer"
+                onClick={() => handleToggle(index)}
+              >
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  id={`checkbox-${index}`}
+                  checked={checkedItems[index]}
+                  onChange={() => handleToggle(index)}
+                />
+
+                <input
+                  type="text"
+                  value={adjustedIngredients[index]}
+                  onChange={(e) => handleInputChange(index, e)}
+                  onClick={(e) => e.stopPropagation()}
+                  className={`cursor-pointer rounded px-2 text-xl font-bold ${
+                    checkedItems[index] ? "line-through text-gray-400" : ""
+                  }`}
+                />
+              </div>
             );
           }
         })}
