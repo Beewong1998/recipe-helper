@@ -28,7 +28,8 @@ const App = () => {
     { label: "Doughnuts", value: "doughnuts" },
     { label: "Cereal", value: "cereal" },
     { label: "Carrots", value: "carrots" },
-    { label: "Tacos", value: "tacos" },
+    { label: "Tacos and Borgars", value: "tacos" },
+
     // Add more options as needed
   ];
 
@@ -44,7 +45,7 @@ const App = () => {
   const setBackground = (option) => {
     switch (option) {
       case "default":
-        return ``;
+        return `url('/backgrounds/default.jpg')`;
       case "cupcakes":
         return `url('/backgrounds/cupcakes.jpg')`;
       case "doughnuts":
@@ -55,6 +56,7 @@ const App = () => {
         return `url('/backgrounds/vegetables.jpg')`;
       case "tacos":
         return `url('/backgrounds/tacos_and_burgers.jpg')`;
+
       // Add more cases for each option
       default:
         return 'url("/path/to/default/image.jpg")';
@@ -66,7 +68,6 @@ const App = () => {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     minHeight: "100vh",
-    backgroundColor: "palegreen",
     // Add more styling as needed
   };
 

@@ -10,7 +10,7 @@ const Dropdown = ({
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="absolute w-screen lg:px-40 h-52  bg-red-300 p-2"
+      className="absolute w-screen lg:px-40 h-52  bg-customRed p-2"
     >
       <h2 className="border-2 rounded-xl p-2 bg-white lg:text-center">
         Thank you for {petOrBoop === "boop" ? "booping" : "petting"} me!

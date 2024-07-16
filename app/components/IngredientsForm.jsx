@@ -15,13 +15,13 @@ const IngredientsForm = ({ onSubmit, setCheckedItems }) => {
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
       <div className="leading-loose ">
-        <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
+        <div className="pl-2 lg:border-0 rounded-t-xl font-bold text-2xl mt-4 bg-customRed ">
           Ingredients
         </div>
         <textarea
           placeholder="Enter ingredients here that you want to adjust"
           id="ingredients"
-          className="w-full pl-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-4 "
+          className="w-full pl-2 rounded-b-xl lg:rouded-b-2xl mb-4 shadow-md focus:shadow-lg focus:border-2 focus:border-customRed focus:outline-none transition duration-300 ease-in-out border-2 border-white"
           value={ingredientsList}
           onChange={(e) => setIngredientsList(e.target.value)}
           rows={14}
@@ -30,9 +30,11 @@ const IngredientsForm = ({ onSubmit, setCheckedItems }) => {
         />
       </div>
       <div className="flex">
-        <label className="pl-2 w-60 ">Original Servings:</label>
+        <label className="pl-2 w-60 rounded-l-xl bg-customRed shadow-md font-bold flex items-center">
+          Original Servings:
+        </label>
         <input
-          className="text-center placeholder-center border-gray-300 border-2 rounded-xl w-screen"
+          className="text-center placeholder-center border-gray-300 rounded-r-xl w-screen focus:border-customRed focus:outline-none transition duration-300 ease-in-out border-2 border-white "
           type="number"
           placeholder="Enter original servings"
           value={originalServings}
@@ -44,10 +46,12 @@ const IngredientsForm = ({ onSubmit, setCheckedItems }) => {
 
       <br />
       <div className="flex">
-        <label className="pl-2 w-60">Desired Servings:</label>
+        <label className="pl-2 w-60 rounded-l-xl bg-customRed shadow-md font-bold flex items-center">
+          Desired Servings:
+        </label>
         <input
           type="number"
-          className=" text-center placeholder-center border-gray-300 border-2 rounded-xl w-screen"
+          className=" text-center placeholder-center border-gray-300 rounded-r-xl w-screen focus:border-customRed focus:outline-none transition duration-300 ease-in-out border-2 border-white"
           placeholder="Enter desired servings"
           value={desiredServings}
           onChange={(e) => setDesiredServings(parseInt(e.target.value))}
