@@ -28,16 +28,16 @@ const IngredientsAdjuster = ({
 
   return (
     <div>
-      <div className="pl-2 border-t-2 lg:border-0 border-gray-300 font-bold text-2xl mt-4  ">
+      <div className="pl-2 lg:border-0 rounded-t-xl font-bold text-2xl mt-4 bg-customRed ">
         Adjusted Ingredients
       </div>
-      <ul className="w-full p-2 border-y-2 lg:border-2 lg:rounded-2xl border-gray-300 mb-8 bg-white">
+      <ul className="w-full p-2 rounded-b-2xl mb-8 bg-white">
         {adjustedIngredients.map((ingredient, index) => {
           if (startsWithNumber(ingredient)) {
             return (
               <React.Fragment key={index}>
                 <div
-                  className="my-2 cursor-pointer"
+                  className="my-2 cursor-pointer w-full flex flex-row"
                   onClick={() => handleToggle(index)}
                 >
                   <input
@@ -53,7 +53,7 @@ const IngredientsAdjuster = ({
                     value={adjustedIngredients[index]}
                     onChange={(e) => handleInputChange(index, e)}
                     onClick={(e) => e.stopPropagation()}
-                    className={`cursor-pointer rounded px-2 ${
+                    className={`cursor-pointer rounded px-2 focus:border-2 focus:border-customRed focus:outline-none transition duration-300 ease-in-out border-2 border-white w-full lg:w-2/4 ${
                       checkedItems[index] ? "line-through text-gray-400" : ""
                     }`}
                   />
@@ -74,7 +74,7 @@ const IngredientsAdjuster = ({
             return (
               <div
                 key={index}
-                className="my-2 cursor-pointer"
+                className="my-2 cursor-pointer flex flex-row"
                 onClick={() => handleToggle(index)}
               >
                 <input
@@ -90,7 +90,7 @@ const IngredientsAdjuster = ({
                   value={adjustedIngredients[index]}
                   onChange={(e) => handleInputChange(index, e)}
                   onClick={(e) => e.stopPropagation()}
-                  className={`cursor-pointer rounded px-2 text-xl font-bold ${
+                  className={`cursor-pointer rounded px-2 text-xl font-bold focus:border-2 focus:border-customRed focus:outline-none transition duration-300 ease-in-out border-2 border-white w-full lg:w-2/4 ${
                     checkedItems[index] ? "line-through text-gray-400" : ""
                   }`}
                 />
